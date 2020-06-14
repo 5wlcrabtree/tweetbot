@@ -1,0 +1,33 @@
+import tweepy
+
+# tweepy will allow us to communicate with Twitter, time will allow us to set how often we tweet
+import tweepy, time
+
+#enter the corresponding information from your Twitter application management:
+CONSUMER_KEY = '2qQfPhu2yIIOU6jtymVBsNNpP' #keep the quotes, replace this with your consumer key
+CONSUMER_SECRET = 'qaVIRRavxeQJXLFQIhZIF3efm9v4cNVMvUwB0QuZRZTCVnxjvL' #keep the quotes, replace this with your consumer secret key
+ACCESS_TOKEN = '1271799627080228865-PZziRVz9fmHXk2ZkZWhQ9rKTYT2y8H' #keep the quotes, replace this with your access token
+ACCESS_SECRET = 'TFsV1Evpf09IBsS9R3bl5RMT5hssGdsGgf0xj9jZwAxsY' #keep the quotes, replace this with your access token secret
+
+
+# configure our access information for reaching Twitter
+auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
+auth.set_access_token(ACCESS_TOKEN, ACCESS_SECRET)
+
+# access Twitter!
+api = tweepy.API(auth)
+
+# open our content file and read each line
+filename=open('lcdp1x01-03.txt')
+f=filename.readlines()
+filename.close()
+
+# for each line in our contents file, lets tweet that line out except when we hit a error
+for line in f:
+    try:
+        api.update_status(line)
+        print("Tweeting!")
+    except tweepy.TweepError as err:
+        print(err)
+    time.sleep(1200) #Tweet every 20 minutes
+print("All done tweeting!")
